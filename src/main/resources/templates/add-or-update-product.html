@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+<th:block th:insert="layouts/head.html"/>
+
+<body>
+<div class="bg-[url('https://wallpaperboat.com/wp-content/uploads/2020/06/04/42814/leaf-03.jpg')] bg-no-repeat bg-cover w-screen min-h-screen bg-zinc-300 flex justify-center">
+    <div class="pt-[100px] w-[500px]">
+        <form action="/save-product" method="POST" th:object="${product}" class="w-full bg-black/70 rounded-lg overflow-hidden">
+            <div class="flex justify-center items-center h-[80px] text-3xl text-white font-semibold bg-amber-700/50">
+                <h1 th:if="*{id == null}">Thêm mới sản phẩm</h1>
+                <h1 th:unless="*{id == null}">Sửa sản phẩm</h1>
+            </div>
+
+            <input type="hidden" th:field="*{id}">
+
+            <div class="px-[50px] py-[20px] flex flex-col justify-start">
+                <div class="flex flex-col gap-[8px] mb-[15px]">
+                    <label class="text-white font-semibold" for="name">Tên sản phẩm</label>
+
+                    <input th:field="*{productName}" id="name" type="text" placeholder="Tên sản phẩm..."
+                           class="py-[5px] px-[10px] rounded-md outline-none">
+                </div>
+
+                <div class="flex flex-col gap-[8px] mb-[15px]">
+                    <label class="text-white font-semibold" for="price">Giá</label>
+
+                    <input th:field="*{price}" id="price" type="text" placeholder="Giá sản phẩm..."
+                           class="py-[5px] px-[10px] rounded-md outline-none">
+                </div>
+
+                <div class="flex flex-col gap-[8px] mb-[15px]">
+                    <label class="text-white font-semibold" for="parent">Danh mục cha</label>
+                    <select th:field="*{category.id}" id="parent"
+                            class="text-center rounded-md outline-none w-[200px] py-[5px]">
+                        <option value="0" th:if="${categories.isEmpty()}">Chưa có danh mục nào</option>
+                        <option value="0" th:unless="${categories.isEmpty()}">Chọn danh mục</option>
+                        <option th:each="cate : ${categories}" th:value="${cate.id}" th:text="${cate.categoryName}"
+                                th:unless="${categories.isEmpty()}"></option>
+                    </select>
+                </div>
+
+                <div class="flex justify-end">
+                    <button type="submit" th:if="*{id == null}"
+                            class="inline-block py-[8px] px-[15px] bg-amber-700 rounded-lg font-semibold text-white m-[15px] hover:bg-amber-800">
+                        Thêm mới
+                    </button>
+                    <button type="submit" th:unless="*{id == null}"
+                            class="inline-block py-[8px] px-[15px] bg-amber-700 rounded-lg font-semibold text-white mt-[15px] hover:bg-amber-800">
+                        Sửa
+                    </button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
